@@ -1,16 +1,16 @@
-import { IProjectRepository } from '@domain/repositories/IProjectRepository';
-import { ProjectDTO } from '../../dto/ProjectDTO';
-import { ProjectMapper } from '../../mappers/ProjectMapper';
+import { ProjectRepository } from '@infrastructure/repositories/ProjectRepository';
+import { ProjectListDTO } from '../../dto/ProjectDTO';
 
 /**
  * ListProjects Use Case
  *
  * Lista todos los proyectos con paginación.
+ * Retorna versión simplificada (ProjectListDTO) sin URLs completas.
  */
 export class ListProjects {
-  constructor(private projectRepository: IProjectRepository) {}
+  constructor(private projectRepository: ProjectRepository) {}
 
-  async execute(skip: number = 0, limit: number = 100): Promise<ProjectDTO[]> {
+  async execute(skip: number = 0, limit: number = 100): Promise<ProjectListDTO[]> {
     // Validación de parámetros
     if (skip < 0) {
       throw new Error('Skip must be a non-negative number');
@@ -19,7 +19,7 @@ export class ListProjects {
       throw new Error('Limit must be between 1 and 100');
     }
 
-    const projects = await this.projectRepository.findAll(skip, limit);
-    return ProjectMapper.toDTOList(projects);
+    // Usar findAllSimplified porque el endpoint solo retorna info básica
+    return await this.projectRepository.findAllSimplified(skip, limit);
   }
 }

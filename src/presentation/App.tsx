@@ -164,22 +164,14 @@ function App() {
               >
                 <h3 style={{ margin: '0 0 0.5rem 0' }}>{project.app_name}</h3>
                 <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
+                  <strong>Short Code:</strong> <code style={{ backgroundColor: '#333', padding: '2px 6px', borderRadius: '4px' }}>{project.short_code}</code>
+                </p>
+                <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
                   <strong>Short URL:</strong>{' '}
                   <a href={project.short_url} target="_blank" rel="noreferrer" style={{ color: '#646cff' }}>
                     {project.short_url}
                   </a>
                 </p>
-                <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
-                  <strong>iOS:</strong> <a href={project.ios_url} target="_blank" rel="noreferrer" style={{ color: '#646cff', fontSize: '0.8rem' }}>{project.ios_url}</a>
-                </p>
-                <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
-                  <strong>Android:</strong> <a href={project.android_url} target="_blank" rel="noreferrer" style={{ color: '#646cff', fontSize: '0.8rem' }}>{project.android_url}</a>
-                </p>
-                {project.fallback_url && (
-                  <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
-                    <strong>Fallback:</strong> <a href={project.fallback_url} target="_blank" rel="noreferrer" style={{ color: '#646cff', fontSize: '0.8rem' }}>{project.fallback_url}</a>
-                  </p>
-                )}
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.8rem', color: '#888' }}>
                   Creado: {new Date(project.created_at).toLocaleString()}
                 </p>

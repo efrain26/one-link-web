@@ -28,12 +28,44 @@ export class ProjectMapper {
    * Convierte un ProjectDTO a Project Entity
    */
   static toDomain(dto: ProjectDTO): Project {
+    // Helper para validar URLs
+    const isValidUrlString = (url: string | null | undefined): boolean => {
+      return (
+        url !== null &&
+        url !== undefined &&
+        typeof url === 'string' &&
+        url.trim() !== '' &&
+        url !== 'undefined' &&
+        url !== 'null'
+      );
+    };
+
+    // Validar iOS URL (requerida)
+    if (!isValidUrlString(dto.ios_url)) {
+      throw new Error(`Project ${dto.id} has invalid ios_url: ${dto.ios_url}`);
+    }
+
+    // Validar Android URL (requerida)
+    if (!isValidUrlString(dto.android_url)) {
+      throw new Error(`Project ${dto.id} has invalid android_url: ${dto.android_url}`);
+    }
+
+    // Validar fallback_url (opcional)
+    let fallbackUrl: Url | null = null;
+    if (isValidUrlString(dto.fallback_url)) {
+      try {
+        fallbackUrl = new Url(dto.fallback_url!);
+      } catch (error) {
+        console.warn(`Invalid fallback_url for project ${dto.id}: ${dto.fallback_url}`, error);
+      }
+    }
+
     return new Project({
       id: dto.id,
       appName: dto.app_name,
       iosUrl: new Url(dto.ios_url),
       androidUrl: new Url(dto.android_url),
-      fallbackUrl: dto.fallback_url ? new Url(dto.fallback_url) : null,
+      fallbackUrl,
       shortCode: dto.short_code,
       shortUrl: dto.short_url,
       createdAt: new Date(dto.created_at),
